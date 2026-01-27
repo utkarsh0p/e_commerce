@@ -79,8 +79,27 @@ export const login = (req, res)=>{
     res.send("this is the login route from teh controller ")
 }
 
-export const logout = (req, res)=>{
-    res.send("this is the logout route from teh controller ")
+export const logout =  async (req, res)=>{
+    try{
+        const refreshToken = req.cookies.refreshToken
+        if(!refreshToken){
+            res.json({"message":"there no user logged in or signed up"})
+            return
+        }
+        //decoding the refreshtoken to get the userid
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+        //using the userid to delete refresh token from the redis
+        await redis.del(`refreshToken:${decoded.userId}`)
+        //clearing from the cookies also
+        res.clearCookie("accessToken")
+        res.clearCookie("refreshToken")
+        
+        res.json({"message":"logged out succesfully"})
+
+    }catch(err){
+        console.log(err)
+        res.json({"message":`error->${err}`})
+    }
 }
 
 

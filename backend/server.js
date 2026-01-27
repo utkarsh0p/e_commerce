@@ -2,6 +2,7 @@ import dotenv from "dotenv"
 dotenv.config()
 
 //imports
+import cookieParser from "cookie-parser"
 import cors from 'cors'
 import express, { json } from "express"
 import userModel from "./models/user.model.js"
@@ -13,6 +14,7 @@ import connectDB from "./lib/db.js"
 //defining servers
 const server = express()
 server.use(cors())
+server.use(cookieParser())
 server.use(express.json())
 
 //dotenv variables
