@@ -75,9 +75,39 @@ export const signup = async (req, res)=>{
     }}, {"message":"user created successfully"})
 }
 
-export const login = (req, res)=>{
-    res.send("this is the login route from teh controller ")
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body
+
+    const user = await User.findOne({ email })
+    if (!user) {
+      return res.json({ message: "invalid credentials" })
+    }
+
+    const pass = await user.comparePassword(password)
+    if (!pass) {
+      return res.json({ message: "invalid credentials" })
+    }
+
+    const {refreshToken, accessToken } = generateTokens(user._id)
+    storeRefreshToken(user._id, refreshToken)
+    setCookie(res, accessToken, refreshToken)
+
+    res.json({
+    message: "user logged in successfully",
+    user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email
+    }
+    })
+  
+  } catch (err) {
+    console.log(err)
+    res.json({ message: `error -> ${err}` })
+  }
 }
+
 
 export const logout =  async (req, res)=>{
     try{
