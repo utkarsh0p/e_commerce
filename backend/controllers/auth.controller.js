@@ -19,12 +19,24 @@ const generateTokens = (userId) =>{
 }
 
 //store the refresh token in the redis
-const storeRefreshToken = async (userId, refreshToken)=>{
-   await redis.set(
+const storeRefreshToken = async (userId, refreshToken) => {
+  await redis.set(
     `refreshToken:${userId}`,
     refreshToken,
-    { EX: 7 * 24 * 60 * 60 }
-   ) 
+    "EX",
+    7 * 24 * 60 * 60
+  );
+};
+
+
+//cookie setting helper function
+const setCookie =async (res, accessToken, refreshToken)=>{
+    res.cookie("accessToken", accessToken, {
+        maxAge: 15 * 60 * 1000,
+    });
+    res.cookie("refreshToken", refreshToken, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 }
 
 
@@ -45,7 +57,22 @@ export const signup = async (req, res)=>{
             password:password
         }
     )
-    res.json({user}, {"message":"user created successfully"})
+
+    //refresh and access tokens
+    const {refreshToken, accessToken} = generateTokens(user._id)
+
+    //storing the refresh token in the redis on signup
+    storeRefreshToken(user._id, refreshToken)
+
+
+    //also storing in the cookie
+    setCookie(res, accessToken, refreshToken)
+     
+    res.json({user:{
+        _id:user._id,
+        name:user.name,
+        email:user.email
+    }}, {"message":"user created successfully"})
 }
 
 export const login = (req, res)=>{
