@@ -133,4 +133,27 @@ export const logout =  async (req, res)=>{
 }
 
 
+export const refreshToken= async( req, res)=>{
+    try{
+         const refreshToken = req.cookies.refreshToken
+         if(!refreshToken){
+            res.json({"message":"no refresh token found"})
+            return;
+         }
+         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+
+         const accessToken = jwt.sign(
+            {userId:decoded.userId},
+            process.env.ACCESS_TOKEN_SECRET, 
+            {expiresIn:"15m"}
+        )
+
+        res.cookie("accessToken", accessToken)
+        res.json({"message":"access token generated using refresh token"})
+
+    }catch(err){
+        console.log("error in the access token route")
+        res.json({"message":`err->${err}`})
+    }
+}
 
