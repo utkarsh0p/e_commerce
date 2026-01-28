@@ -10,6 +10,8 @@ import userModel from "./models/user.model.js"
 //file imports 
 import authRoute from "./routes/auth.route.js"
 import connectDB from "./lib/db.js"
+import cartRoute from "./routes/cart.route.js"
+import productRoute from "./routes/product.route.js"
 
 //defining servers
 const server = express()
@@ -23,6 +25,8 @@ const port = process.env.PORT || 5000
 
 //these are the routes
 server.use("/api/auth", authRoute)
+server.use("/api/products", productRoute)
+server.use("/api/cart", cartRoute)
 
 console.log(userModel)
 await connectDB()
