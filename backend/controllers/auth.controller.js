@@ -77,7 +77,8 @@ export const signup = async (req, res)=>{
     res.json({user:{
         _id:user._id,
         name:user.name,
-        email:user.email
+        email:user.email,
+        role:user.role
     }}, {"message":"user created successfully"})
 }
 
@@ -104,7 +105,8 @@ export const login = async (req, res) => {
     user: {
         _id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role:user.role
     }
     })
   
@@ -168,3 +170,11 @@ export const refreshToken= async( req, res)=>{
     }
 }
 
+export const getProfile = async (req, res)=>{
+    try{
+        res.json(req.user)
+    }catch(err){
+        console.log(err.message)
+        res.json({message:err.message})
+    }
+}
