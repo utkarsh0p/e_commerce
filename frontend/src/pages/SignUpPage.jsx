@@ -28,9 +28,9 @@ const SignUpPage = () => {
 
   const navigate = useNavigate()
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-tan">
-      <form className="bg-oxford w-full max-w-sm rounded-lg p-6" onSubmit={submitHandler}>
-        <h2 className="text-white text-xl font-semibold mb-6 text-center">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-app-white">
+      <form className="w-full max-w-sm border rounded p-6 bg-oxford" onSubmit={submitHandler}>
+        <h2 className="text-tan text-xl font-semibold mb-6 text-center">
           Sign Up
         </h2>
 
@@ -65,7 +65,7 @@ const SignUpPage = () => {
             onChange={setInfoFunction}
           />
 
-          <button className="bg-tan text-oxford py-2 rounded font-medium hover:opacity-90">
+          <button className="bg-button-blue text-oxford py-2 rounded font-medium hover:opacity-90">
             Sign Up
           </button>
 

@@ -1,9 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useUserStore } from '../store/useUserStore.js';
 
 const UserMenu = () => {
-    const user = false;
-    const admin = true;
+  const {logout} = useUserStore()
+  const logoutFunction=()=>{
+    logout();
+  }
+  const {user} = useUserStore()
+  const admin = user?.role === 'admin'
   return (
     <div>
         <div className="flex flex-col py-5 gap-3 items-center">
@@ -13,7 +18,7 @@ const UserMenu = () => {
                 <Link to='/login'>Log In</Link>
                 <Link to="/signup">Sign Up</Link>
               </div>:
-                <Link>Log Out</Link>
+                <Link onClick={logoutFunction}>Log Out</Link>
             }
             {admin &&
               <div>

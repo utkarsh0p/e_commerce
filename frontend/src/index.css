@@ -7,12 +7,20 @@ html,body{
 
 
 @theme{
-    --color-oxford:#002147;
-    --color-tan:#beb69b;
+    --color-oxford:#f5f5f7;
+    --color-tan:rgba(0, 0, 0, .8);
+    --color-app-black:rgb(29, 29, 31);
+    --color-blue-button:rgb(0, 113, 227);
+}
+
+@layer base{
+    html{
+        @apply text-black
+    }
 }
 
 @layer components{
     button{
-        @apply bg-white rounded p-3 ml-2 mr-2
+        @apply bg-blue-button rounded p-3 ml-2 mr-2
     }
 }
