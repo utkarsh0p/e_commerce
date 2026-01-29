@@ -15,12 +15,17 @@ import productRoute from "./routes/product.route.js"
 
 //defining servers
 const server = express()
-server.use(cors())
+
+server.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+
 server.use(cookieParser())
 server.use(express.json())
 
 //dotenv variables
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5174
 
 
 //these are the routes
@@ -28,8 +33,7 @@ server.use("/api/auth", authRoute)
 server.use("/api/products", productRoute)
 server.use("/api/cart", cartRoute)
 
-console.log(userModel)
 await connectDB()
 server.listen(port, () => {
-  console.log("Server running on http://localhost:5000/")
+  console.log("Server running on http://localhost:3000/")
 })

@@ -32,9 +32,15 @@ const storeRefreshToken = async (userId, refreshToken) => {
 //cookie setting helper function
 const setCookie =async (res, accessToken, refreshToken)=>{
     res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
         maxAge: 15 * 60 * 1000,
     });
     res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 }
@@ -148,7 +154,12 @@ export const refreshToken= async( req, res)=>{
             {expiresIn:"15m"}
         )
 
-        res.cookie("accessToken", accessToken)
+        res.cookie("accessToken", accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 15 * 60 * 1000,
+        })
         res.json({"message":"access token generated using refresh token"})
 
     }catch(err){
