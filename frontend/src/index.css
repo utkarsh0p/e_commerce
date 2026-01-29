@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+html,body{
+    max-width:100vw;
+    overflow:hidden;
+}
+
+
+@theme{
+    --color-oxford:#002147;
+    --color-tan:#beb69b;
+}
+
+@layer components{
+    button{
+        @apply bg-white rounded p-3 ml-2 mr-2
+    }
+}
