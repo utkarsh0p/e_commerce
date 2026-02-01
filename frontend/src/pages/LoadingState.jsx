@@ -6,7 +6,7 @@ const LoadingPage = () => {
       <div className="flex flex-col items-center gap-5">
         {/* Modern spinner */}
         <div className="relative w-14 h-14">
-          <div className="absolute inset-0 rounded-full border-4 border-white/20" />
+          <div className="absolute inset-0 rounded-full border-4 border-tan" />
           <div className="absolute inset-0 rounded-full border-4 border-white border-t-transparent animate-spin" />
         </div>
 
