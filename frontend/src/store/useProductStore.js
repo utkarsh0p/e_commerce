@@ -31,5 +31,21 @@ export const useProductStore = create((set,get) => ({
     }))
     console.log(get().products)
     return response.data
+  },
+
+  deleteProduct:async(productId)=>{
+    try{
+      await axios.post(`/api/products/${productId}`)
+      toast.success("Product Deleted")
+    }catch(err){
+      console.log("deleteProduct->",err.message)
+      toast.err("Error deleting product")
+    }
+  },
+
+  fetchAllProductByCagegory: async(category)=>{
+    const response = await axios.get(`/api/products/category/${category}`)
+    console.log(response)
+    return response
   }
 }));

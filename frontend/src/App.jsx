@@ -7,7 +7,9 @@ import CartPage from './pages/CartPage.jsx'
 import AdminPannel from './pages/AdminPannel.jsx'
 import LoadingPage from './pages/LoadingState.jsx'
 import { useUserStore } from './store/useUserStore.js'
+import {Toaster} from 'react-hot-toast'
 import { useEffect } from 'react'
+import CategoryPage from './pages/CategoryPage.jsx'
 
 const App = () => {
 
@@ -15,16 +17,17 @@ const App = () => {
     useEffect(()=>{
         checkAuth()
     },[])
-    
     if(loadingState) return <LoadingPage/>
     return <>
+        <Toaster position="top-center"/>
         <Navbar/>
         <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={user?<HomePage/>:<LogInPage/>} />
-            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/signup" element={user?<HomePage/>:<SignUpPage/>} />
             <Route path="/cart" element={<CartPage/>}/>
             <Route path="/admin-pannel" element={<AdminPannel/>}/>
+            <Route path="/category/:category" element={<CategoryPage/>}/>
         </Routes>
     </>
 }
