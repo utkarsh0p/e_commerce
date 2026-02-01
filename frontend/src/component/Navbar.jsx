@@ -42,9 +42,10 @@ const Navbar = () => {
                     className="bg-white text-tan p-1 outline-none w-full px-5"
                     onChange={handleInput}
                 />
-                <div className="text-white flex justify-center items-center px-2 bg-app-black rounded-r-full cursor-pointer" onClick={productSearch}><p>Search</p></div>
+                <div className="text-white flex justify-center items-center px-2 bg-tan rounded-r-full cursor-pointer" onClick={productSearch}><p>Search</p></div>
             </div>
             <div className="rounded-2xl flex flex-row bg-white p-3 gap-7 relative">
+                {user && <span className="text-tan">{user?.name}</span>}
                 {user && 
                     <div className="bg-oxford p-1 box-content rounded-2xl w-8 flex justify-center items-center text-tan">
                         <Link to="/cart"><ShoppingCart size={20}/></Link>

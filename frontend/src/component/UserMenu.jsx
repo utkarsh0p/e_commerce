@@ -11,7 +11,7 @@ const UserMenu = () => {
   const admin = user?.role === 'admin'
   return (
     <div>
-        <div className="flex flex-col py-5 gap-3 items-center">
+        <div className="flex flex-col py-5 gap-3 items-center relative z-100">
             <Link to="/">Home</Link>
             {!user ? 
               <div className="flex flex-col gap-3">
