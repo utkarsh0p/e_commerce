@@ -65,9 +65,9 @@ export const deleteProduct = async (req, res) => {
 
 export const getProductByCategory =  async(req, res)=>{
     try{
-        const category = req.param.category
+        const category = req.params.category
         const product = await Product.find({category})
-        res.json(product)
+        res.json({product})
     }catch(err){
         console.log(err.message)
         res.json({message:err.message})

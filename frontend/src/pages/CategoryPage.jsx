@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore.js";
 import { useEffect, useState } from "react";
+import { useCartStore } from "../store/userCartStore.js";
 
 const CategoryPage = () => {
-  const { fetchAllProductByCagegory } = useProductStore();
   const { category } = useParams();
   const [products, setProducts] = useState([]);
-
+  const {addToCart} = useCartStore()
+  const {fetchAllProductByCagegory} = useProductStore()
   useEffect(() => {
     const getProducts = async () => {
       const response = await fetchAllProductByCagegory(category);
@@ -15,6 +16,10 @@ const CategoryPage = () => {
 
     getProducts();
   }, [category]);
+
+  const handleAddToCart=async (item)=>{
+    await addToCart(item._id)
+  }
 
   return (
     <div className="min-h-screen text-tan px-6 py-10">
@@ -55,7 +60,7 @@ const CategoryPage = () => {
                     ${item.price}
                   </span>
 
-                  <button className="px-4 py-1.5 rounded-lg bg-tan text-oxford font-medium hover:opacity-90">
+                  <button className="px-4 py-1.5 rounded-lg bg-tan text-oxford font-medium hover:opacity-90" onClick={()=>handleAddToCart(item)}>
                     Add to cart
                   </button>
                 </div>

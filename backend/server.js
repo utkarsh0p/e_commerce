@@ -22,7 +22,7 @@ server.use(cors({
 }));
 
 server.use(cookieParser())
-server.use(express.json())
+server.use(express.json({ limit: "10mb" }))
 
 //dotenv variables
 const port = process.env.PORT || 5174
