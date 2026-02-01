@@ -21,7 +21,6 @@ const LogInPage = () => {
 
   const submitHandler = async (e)=>{
     e.preventDefault()
-    console.log(info)
     const success = await login(info);
     if(success) {
       navigate('/')

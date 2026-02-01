@@ -11,7 +11,7 @@ const LoadingPage = () => {
         </div>
 
         {/* Loading text */}
-        <p className="text-white text-sm opacity-80 tracking-wide">
+        <p className="text-tan text-sm opacity-80 tracking-wide">
           Loading...
         </p>
       </div>

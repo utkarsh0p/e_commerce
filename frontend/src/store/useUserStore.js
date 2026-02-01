@@ -52,7 +52,6 @@ export const useUserStore = create((set, get) => ({
             set({user:null})
             // Clear cart on logout
             useCartStore.getState().clearCart()
-            console.log("logged out")
             toast.success("log out success")
         }catch(err){
             toast.error("log out failed")
@@ -64,8 +63,6 @@ export const useUserStore = create((set, get) => ({
         set({checkingAuth:true})
         try{
             const response = await axios.get('/api/auth/profile') 
-            console.log("this is check auth")
-            console.log(response.data)
             set({user:response.data, checkingAuth:false})
         }catch(err){
             console.log(err.message)
