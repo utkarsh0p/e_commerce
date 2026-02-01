@@ -7,17 +7,27 @@ import CartPage from './pages/CartPage.jsx'
 import AdminPannel from './pages/AdminPannel.jsx'
 import LoadingPage from './pages/LoadingState.jsx'
 import { useUserStore } from './store/useUserStore.js'
+import { useCartStore } from './store/useCartStore.js'
 import {Toaster} from 'react-hot-toast'
 import { useEffect } from 'react'
 import CategoryPage from './pages/CategoryPage.jsx'
 
 const App = () => {
 
-    const {loadingState, user, checkAuth} = useUserStore()
+    const {checkingAuth, user, checkAuth} = useUserStore()
+    const {getCartItems, cart} = useCartStore()
+    
     useEffect(()=>{
         checkAuth()
     },[])
-    if(loadingState) return <LoadingPage/>
+    
+    useEffect(()=>{
+        if(user){
+            getCartItems()
+        }
+    },[user])
+
+    if(checkingAuth) return <LoadingPage/>
     return <>
         <Toaster position="top-center"/>
         <Navbar/>

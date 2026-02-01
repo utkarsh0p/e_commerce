@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, User } from "lucide-react";
 import UserMenu from "./UserMenu.jsx";
-import { useUserStore } from "../store/useUserStore.js";
+import { useCartStore } from "../store/useCartStore.js";
 
 const Navbar = () => {
-  const { user } = useUserStore();
+  const {cart} = useCartStore()
+  const cartItemCount = cart.length
 
   const [userMenu, toggleUserMenu] = useState(false);
   const [valInput, setValInput] = useState("");
@@ -23,7 +24,6 @@ const Navbar = () => {
     setValInput("");
   };
 
-  const cartCount = user?.cartItems?.length || 0;
 
   return (
     <nav className="bg-oxford w-full h-[10vh] pt-2 px-4 text-oxford">
@@ -65,7 +65,7 @@ const Navbar = () => {
 
             {/* Cart item count */}
             <span className="absolute -top-2 -right-2 bg-tan text-oxford text-xs font-bold px-1.5 py-0.5 rounded-full">
-              {cartCount}
+              {cartItemCount}
             </span>
           </div>
 

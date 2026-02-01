@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom"
 import { useUserStore } from '../store/useUserStore.js';
 
 const LogInPage = () => {
-
+  const navigate = useNavigate()
   const {user, login} = useUserStore()
 
   const [info, setInfo]=useState({
@@ -19,13 +19,14 @@ const LogInPage = () => {
     }))
   }
 
-  const submitHandler = (e)=>{
+  const submitHandler = async (e)=>{
     e.preventDefault()
     console.log(info)
-    login(info);
+    const success = await login(info);
+    if(success) {
+      navigate('/')
+    }
   }
-
-  const navigate = useNavigate()
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-app-white">
       <form className="w-full max-w-sm border rounded p-6 bg-oxford" onSubmit={submitHandler}>

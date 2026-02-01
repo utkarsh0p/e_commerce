@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import axios from '../lib/axios.js'
 import toast from 'react-hot-toast'
+import { useCartStore } from './useCartStore.js'
 
 export const useUserStore = create((set, get) => ({
     loadingState:false,
@@ -34,21 +35,23 @@ export const useUserStore = create((set, get) => ({
                 email,
                 password
             })
-            set({user:response.data.user})
-            set({loadingState:false})
+            set({user:response.data.user, loadingState:false})
             toast.success("log in success")
+            return true
         }catch(err){
             toast.error("log in failed")
             console.log(err.message)
+            set({loadingState:false})
+            return false
         }
     },
     
     logout:async() =>{
-        set({loadingState:true})
         try{
-            const response = await axios.post('/api/auth/logout')
+            await axios.post('/api/auth/logout')
             set({user:null})
-            set({loadingState:false})
+            // Clear cart on logout
+            useCartStore.getState().clearCart()
             console.log("logged out")
             toast.success("log out success")
         }catch(err){
@@ -61,11 +64,12 @@ export const useUserStore = create((set, get) => ({
         set({checkingAuth:true})
         try{
             const response = await axios.get('/api/auth/profile') 
-            console.log("this is chenck aut")
+            console.log("this is check auth")
             console.log(response.data)
-            set({user:response.data,checkingAuth:false})
+            set({user:response.data, checkingAuth:false})
         }catch(err){
             console.log(err.message)
+            set({user:null, checkingAuth:false})
         }
     }
 }))

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../store/useUserStore.js';
 
 const SignUpPage = () => {
-
+  const navigate = useNavigate()
   const {signup} = useUserStore()
 
   const [info, setInfo]=useState({
@@ -20,13 +20,16 @@ const SignUpPage = () => {
     }))
   }
 
-  const submitHandler = (e)=>{
+  const submitHandler = async (e)=>{
     e.preventDefault()
     console.log("going for signup->", info)
-    signup(info)
+    try {
+      await signup(info)
+      navigate('/')
+    } catch (error) {
+      // Error already handled in store
+    }
   }
-
-  const navigate = useNavigate()
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-app-white">
       <form className="w-full max-w-sm border rounded p-6 bg-oxford" onSubmit={submitHandler}>

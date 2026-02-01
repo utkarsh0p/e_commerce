@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore.js";
 import { useEffect, useState } from "react";
-import { useCartStore } from "../store/userCartStore.js";
+import { useCartStore } from "../store/useCartStore.js";
 
 const CategoryPage = () => {
   const { category } = useParams();
@@ -57,7 +57,7 @@ const CategoryPage = () => {
 
                 <div className="flex items-center justify-between pt-2">
                   <span className="text-xl font-bold">
-                    ${item.price}
+                    ₹{item.price}
                   </span>
 
                   <button className="px-4 py-1.5 rounded-lg bg-tan text-oxford font-medium hover:opacity-90" onClick={()=>handleAddToCart(item)}>

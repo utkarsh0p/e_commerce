@@ -5,47 +5,71 @@ import toast from "react-hot-toast";
 export const useProductStore = create((set,get) => ({       
   loading: false,
   products:[],
+  error: null,
   setProducts:(products)=>{
     set({products})
   },
 
   createProduct: async (productData) => {
     try {
-      set({ loading: true });
+      set({ loading: true, error: null });
 
       const response = await axios.post("/api/products", productData);
+      // Add new product to local state
+      set((state) => ({
+        products: [...state.products, response.data],
+        loading: false
+      }));
       toast.success("Product created successfully");
-      console.log(get().products)
+      return response.data;
     } catch (error) {
-      toast.error("Error creating product");
+      set({ loading: false, error: error.response?.data?.message || "Error creating product" });
+      toast.error(error.response?.data?.message || "Error creating product");
       console.error("Error creating product", error);
       throw error;
-    } finally {
-      set({ loading: false });
     }
   },
   fetchAllProducts:async()=>{
-    const response = await axios.get('/api/products')
-    set((state)=>({
-        products:[response.data]
-    }))
-    console.log(get().products)
-    return response.data
+    try {
+      set({ loading: true, error: null });
+      const response = await axios.get('/api/products');
+      set({ products: response.data.products || [], loading: false });
+      return response.data;
+    } catch (error) {
+      set({ loading: false, error: error.response?.data?.message || "Failed to fetch products" });
+      toast.error(error.response?.data?.message || "Failed to fetch products");
+      return { products: [] };
+    }
   },
 
   deleteProduct:async(productId)=>{
+    const previousProducts = get().products;
     try{
-      await axios.post(`/api/products/${productId}`)
-      toast.success("Product Deleted")
+      // Optimistic update - remove product from local state
+      set((state) => ({
+        products: state.products.filter(p => p._id !== productId)
+      }));
+      
+      await axios.delete(`/api/products/${productId}`);
+      toast.success("Product Deleted");
     }catch(err){
-      console.log("deleteProduct->",err.message)
-      toast.err("Error deleting product")
+      // Rollback on error
+      set({ products: previousProducts });
+      console.log("deleteProduct->",err.message);
+      toast.error(err.response?.data?.message || "Error deleting product");
     }
   },
 
   fetchAllProductByCagegory: async(category)=>{
-    const response = await axios.get(`/api/products/category/${category}`)
-    console.log(response)
-    return response
+    try {
+      set({ loading: true, error: null });
+      const response = await axios.get(`/api/products/category/${category}`);
+      set({ loading: false });
+      return response;
+    } catch (error) {
+      set({ loading: false, error: error.response?.data?.message || "Failed to fetch products" });
+      toast.error(error.response?.data?.message || "Failed to fetch products");
+      return { data: { product: [] } };
+    }
   }
 }));
