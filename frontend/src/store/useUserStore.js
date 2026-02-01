@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import axios from '../lib/axios.js'
+import toast from 'react-hot-toast'
 
 export const useUserStore = create((set, get) => ({
     loadingState:false,
@@ -17,7 +18,9 @@ export const useUserStore = create((set, get) => ({
 
             set({user:response.data.user})
             set({loadingState:false})
+            toast.success("sign up success")
         } catch (error) {
+            toast.error("sign up failed")
             console.error("Signup error:", error.response?.data || error.message)
             set({loadingState:false})
             throw error
@@ -32,10 +35,10 @@ export const useUserStore = create((set, get) => ({
                 password
             })
             set({user:response.data.user})
-            console.log("logged in user")
-            console.log(get().user)
             set({loadingState:false})
+            toast.success("log in success")
         }catch(err){
+            toast.error("log in failed")
             console.log(err.message)
         }
     },
@@ -47,7 +50,9 @@ export const useUserStore = create((set, get) => ({
             set({user:null})
             set({loadingState:false})
             console.log("logged out")
+            toast.success("log out success")
         }catch(err){
+            toast.error("log out failed")
             console.log(err.message)
         }
     },
