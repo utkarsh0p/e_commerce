@@ -50,7 +50,7 @@ export const useProductStore = create((set,get) => ({
         products: state.products.filter(p => p._id !== productId)
       }));
       
-      await axios.delete(`/api/products/${productId}`);
+      await axios.post(`/api/products/${productId}`);
       toast.success("Product Deleted");
     }catch(err){
       // Rollback on error
