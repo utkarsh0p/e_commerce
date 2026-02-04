@@ -17,8 +17,8 @@ import productRoute from "./routes/product.route.js"
 const server = express()
 
 server.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
+    origin:"http://localhost:5173",
+    credentials: true
 }));
 
 server.use(cookieParser())
@@ -34,6 +34,6 @@ server.use("/api/products", productRoute)
 server.use("/api/cart", cartRoute)
 
 await connectDB()
-server.listen(port, () => {
-  console.log("Server running on http://localhost:3000/")
+server.listen(port,'0.0.0.0',() => {
+  console.log("Server running on http://0.0.0.0:3000/")
 })

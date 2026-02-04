@@ -1,0 +1,31 @@
+# Node modules should not be copied
+node_modules
+
+# Environment variables (never put secrets in the image)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Logs
+npm-debug.log
+yarn-error.log
+logs
+*.log
+
+# OS / editor junk
+.DS_Store
+*.swp
+
+# Git files
+.git
+.gitignore
+
+# Docker files
+Dockerfile
+docker-compose.yml
+
+# Build output (if any)
+dist
+build
