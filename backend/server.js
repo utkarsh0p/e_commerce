@@ -17,7 +17,7 @@ import productRoute from "./routes/product.route.js"
 const server = express()
 
 server.use(cors({
-    origin:"http://localhost:5173",
+    origin:"http://3.80.154.24:5173",
     credentials: true
 }));
 
